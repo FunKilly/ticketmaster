@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     # Local apps
     "users.apps.UsersConfig",
     "tickets.apps.TicketsConfig",
-    "events.apps.EventsConfig"
+    "events.apps.EventsConfig",
     # Thirds party apps
     "rest_framework",
 ]
