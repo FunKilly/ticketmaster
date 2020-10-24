@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "tickets.apps.TicketsConfig",
     "events.apps.EventsConfig",
     # Thirds party apps
-    "rest_framework",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -57,6 +57,14 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+    "PAGE_SIZE": 20,
+}
 
 ROOT_URLCONF = "ticketmaster.urls"
 
@@ -110,6 +118,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "users.validators.UppercaseValidator",},
+    {"NAME": "users.validators.LowercaseValidator",},
+    {"NAME": "users.validators.SymbolValidator",},
 ]
 
 
@@ -124,7 +135,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

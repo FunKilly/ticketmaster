@@ -7,15 +7,17 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    command: gunicorn ticketmaster.wsgi:application --bind 0.0.0.0:8000
-    expose:
-      - 8000
+    command: bash -c "sleep 2s && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8080:8000"
     volumes:
       - .:/app
       - ./tests:/app/tests
       - ./data/media:/public/media
     depends_on:
       - db
+      - rabbitmq
+      - celery_worker
     env_file:
       - .env
     stdin_open: true

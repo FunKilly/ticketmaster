@@ -1,32 +1,38 @@
 import uuid
 from datetime import datetime
 
+from django.core.validators import MinValueValidator
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 
 from users.models import User
-from events.models import Event
 
 from .constants import TicketStatusType, TicketType
 
 
 class Ticket(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    ticket_type = models.CharField(max_length=15, choices=TicketType.choices, default=TicketType.REGULAR,)
-    price = models.DecimalField(max_digits=20, decimal_places=2, validators=[MinValueValidator(0.0)])
-    amount = models.IntegerField(validators=[MinValueValidator(0)])
+    event = models.ForeignKey(
+        "events.Event", on_delete=models.CASCADE, related_name="tickets"
+    )
+    ticket_type = models.CharField(
+        max_length=15, choices=TicketType.choices, default=TicketType.REGULAR,
+    )
+    price = models.DecimalField(
+        max_digits=20, decimal_places=2, validators=[MinValueValidator(0.0)]
+    )
     modified_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class UserTicket(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    number_of_seats = models.IntegerField(validators=[MaxValueValidator(10), MinValueValidator(0)])
-    price = models.DecimalField(max_digits=22, decimal_places=2, validators=[MinValueValidator(0.0)])
+    ticket = models.ForeignKey(
+        Ticket, on_delete=models.CASCADE, related_name="user_tickets"
+    )
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(max_length=15, choices=TicketStatusType.choices, default=TicketStatusType.BOOKED)
+    status = models.CharField(
+        max_length=15, choices=TicketStatusType.choices, default=TicketStatusType.BOOKED
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     @property
@@ -43,5 +49,7 @@ class UserTicket(models.Model):
 class PaymentHistory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     ticket = models.ForeignKey(UserTicket, on_delete=models.PROTECT)
-    total_price = models.DecimalField(max_digits=20, decimal_places=2, validators=[MinValueValidator(0.0)])
+    total_price = models.DecimalField(
+        max_digits=20, decimal_places=2, validators=[MinValueValidator(0.0)]
+    )
     created_at = models.DateTimeField(auto_now_add=True)
