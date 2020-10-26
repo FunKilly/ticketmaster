@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from celery.schedules import crontab
+
 from envparse import env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -108,6 +110,10 @@ CELERY_BROKER_URL = "amqp://rabbitmq"
 CELERY_RESULT_BACKEND = "amqp://rabbitmq"
 CELERY_TRACK_STARTED = True
 CELERY_IGNORE_RESULT = False
+
+CELERY_BEAT_SCHEDULE = {
+    "update_statuses": {"task": "update_statuses", "schedule": crontab(minute="*/15"),},
+}
 
 
 # Password validation

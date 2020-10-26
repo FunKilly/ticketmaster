@@ -18,13 +18,13 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from events.views import EventManagementViewSet, EventViewSet
-from tickets.views import UserTicketViewSet
+from tickets.views import OrderViewSet
 from users.views import CreateUserView, ObtainAuthToken
 
 router = DefaultRouter()
 router.register(r"admin/events", EventManagementViewSet)
 router.register(r"events", EventViewSet)
-router.register(r"tickets", UserTicketViewSet)
+router.register(r"orders", OrderViewSet, basename="orders")
 
 urlpatterns = [
     path("register/", CreateUserView.as_view(), name="register"),

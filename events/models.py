@@ -24,4 +24,4 @@ class Event(models.Model):
 
     @property
     def available_seats(self):
-        return self.tickets.values("ticket_type").filter(user_tickets__isnull=True).annotate(typy=Count("ticket_type"))
+        return self.tickets.values("ticket_type").filter(order__isnull=True).annotate(available_seats=Count("ticket_type"))

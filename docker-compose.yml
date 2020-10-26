@@ -48,5 +48,15 @@ services:
       - rabbitmq
       - db
 
+  celery-beat:
+    build:
+      context: .
+    container_name: celery_beat
+    volumes:
+      - .:/app
+    command: "celery -A ticketmaster beat --loglevel=info"
+    depends_on:
+      - rabbitmq
+
 volumes:
   postgres_volume:
