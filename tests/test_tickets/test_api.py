@@ -23,8 +23,8 @@ class TestOrderViewSet(TestCase):
             place="Wroclaw",
             description="lorem ipsum",
         )
-        self.data = {"price": 130, "amount": 1000, "ticket_type": "regular"}
-        self.event.create_tickets(self.data)
+        data = {"price": 130, "amount": 1000, "ticket_type": "regular"}
+        self.event.create_tickets(data)
 
         user = UserModel.objects.create_user(
             name="test test", password="Test1234!", email="test@gmail.com"

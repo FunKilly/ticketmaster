@@ -14,7 +14,7 @@ from .serializers import (
     EventManagementDetailSerializer,
     EventManagementListSerializer,
     EventReservationsSerializer,
-    EventTicketCreateSerializer,
+    EventTicketManagementCreateSerializer,
 )
 from .tasks import add_tickets
 
@@ -26,7 +26,7 @@ class EventManagementViewSet(GetSerializerClassMixin, ModelViewSet):
     serializer_action_classes = {
         "create": EventManagementDetailSerializer,
         "list": EventManagementListSerializer,
-        "create_tickets": EventTicketCreateSerializer,
+        "create_tickets": EventTicketManagementCreateSerializer,
         "retrieve": EventManagementDetailSerializer,
         "reservation_stats": EventReservationsSerializer,
         "update": EventManagementDetailSerializer,

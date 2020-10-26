@@ -84,7 +84,7 @@ class EventListSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "event_date", "place", "status"]
 
 
-class EventTicketCreateSerializer(serializers.ModelSerializer):
+class EventTicketManagementCreateSerializer(serializers.ModelSerializer):
     amount = serializers.IntegerField(validators=[MinValueValidator(0)])
 
     class Meta:

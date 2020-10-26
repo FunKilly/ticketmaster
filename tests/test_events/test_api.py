@@ -98,26 +98,26 @@ class TestEventViewSet(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=user)
 
-        self.future_date_1 = datetime.now() + timedelta(days=+30)
-        self.future_date_2 = datetime.now() + timedelta(days=+37)
-        self.past_date_1 = datetime.now() + timedelta(days=+37)
+        future_date_1 = datetime.now() + timedelta(days=+30)
+        future_date_2 = datetime.now() + timedelta(days=+37)
+        past_date_1 = datetime.now() + timedelta(days=+37)
         self.events = Event.objects.bulk_create(
             [
                 Event(
                     name="Powerwolf in Wroclaw",
-                    event_date=self.future_date_1,
+                    event_date=future_date_1,
                     place="Wroclaw",
                     description="lorem ipsum",
                 ),
                 Event(
                     name="Powerwolf in Wroclaw",
-                    event_date=self.future_date_2,
+                    event_date=future_date_2,
                     place="Wroclaw",
                     description="lorem ipsum",
                 ),
                 Event(
                     name="Powerwolf in Wroclaw",
-                    event_date=self.past_date_1,
+                    event_date=past_date_1,
                     place="Wroclaw",
                     description="lorem ipsum",
                 ),

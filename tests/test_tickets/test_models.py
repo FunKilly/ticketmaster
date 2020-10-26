@@ -14,21 +14,21 @@ UserModel = get_user_model()
 class TestOrderModel(TestCase):
     def setUp(self):
         future_date = datetime.now() + timedelta(days=10)
-        self.event = Event.objects.create(
+        event = Event.objects.create(
             name="Powerwolf in Wroclaw",
             event_date=future_date,
             place="Wroclaw",
             description="lorem ipsum",
         )
         self.data = {"price": 130, "amount": 1000, "ticket_type": "regular"}
-        self.event.create_tickets(self.data)
+        event.create_tickets(self.data)
 
-        self.owner = UserModel.objects.create_user(
+        owner = UserModel.objects.create_user(
             name="test test", password="Test1234!", email="test@gmail.com"
         )
-        self.order = Order.objects.create(event=self.event, owner=self.owner)
+        self.order = Order.objects.create(event=event, owner=owner)
 
-        tickets = Ticket.objects.filter(event=self.event)[:5]
+        tickets = Ticket.objects.filter(event=event)[:5]
         self.tickets_ids = [ticket.id for ticket in tickets]
 
     def test_total_price(self):
