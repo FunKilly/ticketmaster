@@ -54,7 +54,7 @@ services:
     container_name: celery_beat
     volumes:
       - .:/app
-    command: "celery -A ticketmaster beat --loglevel=info"
+    command: "celery -A ticketmaster beat --loglevel=info --pidfile="
     depends_on:
       - rabbitmq
 

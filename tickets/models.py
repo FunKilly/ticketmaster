@@ -26,14 +26,6 @@ class Ticket(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    @property
-    def is_active(self):
-        if self.status == TicketStatusType.SPARE:
-            return True
-        else:
-            diff = datetime.now() - self.created_at
-            return all([diff.seconds < 900, diff.days == 0])
-
 
 class Order(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -51,7 +43,7 @@ class Order(models.Model):
 
     @property
     def is_active(self):
-        if self.status == OrderStatusType.PAID:
+        if self.status == OrderStatusType.PAID and self.event.event_date > datetime.now():
             return True
         else:
             diff = datetime.now() - self.created_at
@@ -72,10 +64,10 @@ class Order(models.Model):
         )
 
         if type(result) == PaymentResult:
-            self.update_statuses()
+            self.update_statuses_after_success_payment()
         return result
 
-    def update_statuses(self):
+    def update_statuses_after_success_payment(self):
         self.status = OrderStatusType.PAID
         self.ticket_set.update(status=TicketStatusType.PAID)
         self.save()

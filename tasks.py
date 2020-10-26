@@ -2,7 +2,7 @@ from invoke import task
 
 LINE_LENGTH = "90"
 
-PATHS = ["users", "tickets", "ticketmaster"]
+PATHS = ["users", "tickets", "ticketmaster", "events", "tests"]
 EXCLUDE = ["*/migrations/*"]
 
 

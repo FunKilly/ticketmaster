@@ -26,6 +26,7 @@ class OrderCreateSerializer(serializers.Serializer):
 
 
 class OrderDetailSerializer(serializers.ModelSerializer):
+    # Frontend shouldn't display status, on its basis, it should check whether the order is paid for
     event_id = serializers.CharField(source="event.id")
     event_name = serializers.CharField(source="event.name")
     event_date = serializers.CharField(source="event.event_date")
@@ -40,6 +41,7 @@ class OrderDetailSerializer(serializers.ModelSerializer):
             "total_price",
             "created_at",
             "is_active",
+            "status",
         ]
 
 

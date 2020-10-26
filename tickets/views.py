@@ -41,7 +41,10 @@ class OrderViewSet(
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        event = Event.objects.filter(id=serializer.validated_data["event_id"]).first()
+        event = Event.objects.filter(
+            id=serializer.validated_data["event_id"], status="active"
+        ).first()
+
         if event:
             spare_tickets_ids = self.get_spare_tickets_ids(serializer.validated_data)
 
@@ -50,7 +53,7 @@ class OrderViewSet(
                 order.attach_tickets(spare_tickets_ids)
                 return Response(
                     "Tickets has been reserved. After 15 minutes reservation will be released.",
-                    status=status.HTTP_200_OK,
+                    status=status.HTTP_201_CREATED,
                 )
             else:
                 return Response(
@@ -61,12 +64,11 @@ class OrderViewSet(
             return Response("Event not found.", status=status.HTTP_400_BAD_REQUEST,)
 
     def get_spare_tickets_ids(self, data):
-        tickets_ids = (
-            Ticket.objects.filter(event__id=data["event_id"])
-            .filter(order__isnull=True)
-            .filter(ticket_type=data["ticket_type"])
-            .values("id")[: data["amount"]]
-        )
+        tickets_ids = Ticket.objects.filter(
+            event__id=data["event_id"],
+            order__isnull=True,
+            ticket_type=data["ticket_type"],
+        ).values("id")[: data["amount"]]
         return [ticket["id"] for ticket in tickets_ids]
 
     @action(

@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 from celery.schedules import crontab
-
 from envparse import env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

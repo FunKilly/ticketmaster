@@ -16,7 +16,6 @@ class CreateUserView(CreateAPIView):
 
 
 class CreateTokenView(ObtainAuthToken):
-    # Login
     serializer_class = AuthTokenSerializer
     permission_classes = (permissions.AllowAny,)
     serializer_action_classes = {

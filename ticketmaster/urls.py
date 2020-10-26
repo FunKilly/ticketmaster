@@ -22,8 +22,8 @@ from tickets.views import OrderViewSet
 from users.views import CreateUserView, ObtainAuthToken
 
 router = DefaultRouter()
-router.register(r"admin/events", EventManagementViewSet)
-router.register(r"events", EventViewSet)
+router.register(r"admin/events", EventManagementViewSet, basename="admin_events")
+router.register(r"events", EventViewSet, basename="events")
 router.register(r"orders", OrderViewSet, basename="orders")
 
 urlpatterns = [

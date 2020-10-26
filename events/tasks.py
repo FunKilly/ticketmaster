@@ -1,5 +1,7 @@
 from celery.decorators import task
+
 from events.models import Event
+
 
 @task(name="add_tickets")
 def add_tickets(event_pk, data):
